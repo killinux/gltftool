@@ -41,7 +41,8 @@ function animate() {
 animate();
 
 const loader = new GLTFLoader();
-loader.load('./model/tiny_house.glb', (gltf) => {
+//loader.load('./model/tiny_house.glb', (gltf) => {
+loader.load('./model/tree.gltf', (gltf) => {
     scene.add(gltf.scene);
 });	
 </script>

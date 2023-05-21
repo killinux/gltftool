@@ -14,8 +14,6 @@
 	<script src="threex/threex-artoolkitcontext.js"></script>
 	<script src="threex/threex-arbasecontrols.js"></script>
 	<script src="threex/threex-armarkercontrols.js"></script>
-	<!--script src="three/examples/jsm/loaders/GLTFLoader.js"></script-->
-
 </head>
 
 <body style='margin : 0px; overflow: hidden; font-family: Monospace;'>
@@ -25,18 +23,19 @@
   Based on the AR.js library and examples created by Jerome Etienne: https://github.com/jeromeetienne/AR.js/
 -->
 
-<script type="module">
-
-import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+<script>
 
 var scene, camera, renderer, clock, deltaTime, totalTime;
+
 var arToolkitSource, arToolkitContext;
+
 var markerRoot1;
+
 var mesh1;
+
 initialize();
 animate();
+
 function initialize()
 {
 	scene = new THREE.Scene();
@@ -126,28 +125,23 @@ function initialize()
 	function onProgress(xhr) { console.log( (xhr.loaded / xhr.total * 100) + '% loaded' ); }
 	function onError(xhr) { console.log( 'An error happened' ); }
 	
-loader = new GLTFLoader().load('./model/tree.gltf', (gltf) => {
-    scene.add(gltf.scene);
-});	
-
-
-
-//	new THREE.MTLLoader()
-//		.setPath( 'models/' )
-//		.load( 'fish-2.mtl', function ( materials ) {
-//			materials.preload();
-//			new THREE.OBJLoader()
-//				.setMaterials( materials )
-//				.setPath( 'models/' )
-//				.load( 'fish-2.obj', function ( group ) {
-//					mesh0 = group.children[0];
-//					mesh0.material.side = THREE.DoubleSide;
-//					mesh0.position.y = 0.25;
-//					mesh0.scale.set(0.25,0.25,0.25);
-//					markerRoot1.add(mesh0);
-//				}, onProgress, onError );
-//		});
+	new THREE.MTLLoader()
+		.setPath( 'models/' )
+		.load( 'fish-2.mtl', function ( materials ) {
+			materials.preload();
+			new THREE.OBJLoader()
+				.setMaterials( materials )
+				.setPath( 'models/' )
+				.load( 'fish-2.obj', function ( group ) {
+					mesh0 = group.children[0];
+					mesh0.material.side = THREE.DoubleSide;
+					mesh0.position.y = 0.25;
+					mesh0.scale.set(0.25,0.25,0.25);
+					markerRoot1.add(mesh0);
+				}, onProgress, onError );
+		});
 }
+
 
 function update()
 {
@@ -156,10 +150,13 @@ function update()
 		arToolkitContext.update( arToolkitSource.domElement );
 }
 
+
 function render()
 {
 	renderer.render( scene, camera );
 }
+
+
 function animate()
 {
 	requestAnimationFrame(animate);
@@ -168,6 +165,8 @@ function animate()
 	update();
 	render();
 }
+
 </script>
+
 </body>
 </html>
