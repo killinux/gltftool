@@ -1,6 +1,11 @@
+//import * as THREE from 'three';
+
+//import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+
 window.addEventListener("DOMContentLoaded", init);
 function init() {
-    //レンダラーの設定
+    //渲染设定
     const renderer = new THREE.WebGLRenderer({
         antialias: true,
         alpha: true
@@ -18,7 +23,7 @@ function init() {
     scene.add(camera);
     const light = new THREE.AmbientLight(0xFFFFFF, 1.0);
     scene.add(light);
-    //画面リサイズの設定
+    //画面設定
     window.addEventListener('resize', () => {
         onResize();
     });
@@ -47,8 +52,37 @@ function init() {
         camera.projectionMatrix.copy(arToolkitContext.getProjectionMatrix());
     });
     
-    const gltfloader = new THREE.GLTFLoader();
-      gltfloader.load('./model/tree.gltf',function(gltf){
+    //const gltfloader = new THREE.GLTFLoader();
+    const gltfloader = new GLTFLoader();
+    //gltfloader.load('./model/tree.gltf',function(gltf){
+    gltfloader.load('./model/tiny_house.glb',function(gltf){
+          //设置模型大小
+            gltf.scene.scale.set(0.2, 0.2, 0.2);
+            //console.log(gltf.scene.scale);
+            gltf.scene.traverse( function ( child ) {
+                //console.log("遍历场景--->");
+                //console.log(child);
+                if(child.name=="Sketchfab_model"){ //显示位置
+                    child.position.x=0;
+                    child.position.y=0
+                    child.position.z=0
+                    console.log("Sketchfab_model.position.x:"+child.position.x);
+                    console.log("Sketchfab_model.position.y:"+child.position.y);
+                    console.log("Sketchfab_model.position.z:"+child.position.z);
+                    child.scale.x=0.2;
+                    child.scale.y=0.2;
+                    child.scale.z=0.2;
+                    console.log("Sketchfab_model.x:"+child.scale.x);//显示大小
+                    console.log("Sketchfab_model.y:"+child.scale.y);
+                    console.log("Sketchfab_model.z:"+child.scale.z);
+                }
+                //child.name="main_mode";
+                if ( child.isMesh ) {
+                     // TOFIX RoughnessMipmapper seems to be broken with WebGL 2.0
+                     // roughnessMipmapper.generateMipmaps( child.material );
+                }
+            });
+
           marker1.add(gltf.scene);
       });
 
